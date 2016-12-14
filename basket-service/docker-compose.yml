@@ -1,6 +1,0 @@
-version: '2'
-services:
-  dynamodb:
-    image: ryanratcliff/dynamodb
-    ports:
-         - "8000:8000"
