@@ -1,4 +1,5 @@
 machine:
+
   # pre:
   #   - git clone git@github.com:OfficeServe/sbt-settings.git
   #   - chmod +x sbt-settings/./circleBuildScript.sh
@@ -16,14 +17,13 @@ general:
 
 dependencies:
   # Cache the resolution-cache and build streams to speed things up
+  pre:
+    - wget -q https://dl.bintray.com/sbt/debian/sbt-0.13.12.deb
+    - sudo dpkg -i sbt-0.13.12.deb
   cache_directories:
+    - "~/.ivy2"
     - "~/.sbt"
-    - "target/resolution-cache"
-    - "target/streams"
-  #Create the repository proxy configuration and add user credentials.
-  # pre:
-  #   - cd .. ; sbt-settings/./circleBuildScript.sh sbt_setup
-  # Compile all sources
+
   override:
     - sbt clean test:compile
 
