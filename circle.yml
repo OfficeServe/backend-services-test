@@ -30,7 +30,7 @@ dependencies:
 test:
   override:
     # - ../sbt-settings/circleBuildScript.sh run_tests && sbt it:test
-    sbt clean test it:test package
+    - sbt clean test it:test package
   # Copy test reports to Circle test reports dir then package app for deploy
   # post:
   #   - cd .. ; sbt-settings/./circleBuildScript.sh copy_test_report
