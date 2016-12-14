@@ -1,7 +1,3 @@
-import sbtrelease.ReleaseStateTransformations._
-
-organization := "officeserve.commons"
-
 name := "common-spray"
 
 libraryDependencies ++= {

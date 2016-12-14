@@ -6,7 +6,7 @@ libraryDependencies ++= {
   Seq(
     "net.codingwell" %% "scala-guice" % "4.0.1",
     "com.typesafe" % "config" % "1.3.0",
-    "com.iheart" %% "ficus" % "1.2.6",
+    "com.iheart" %% "ficus" % "1.4.0",
     "com.gu" %% "scanamo" % "0.6.0",
     "io.spray" %% "spray-client" % "1.3.3",
     "org.scalaz" %% "scalaz-core" % "7.1.0",
@@ -24,3 +24,5 @@ libraryDependencies ++= {
     "org.mockito" % "mockito-core" % "1.10.19" % "test"
   )
 }
+
+resolvers += Resolver.bintrayRepo("dwhjames", "maven")

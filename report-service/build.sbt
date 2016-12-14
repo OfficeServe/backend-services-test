@@ -20,10 +20,6 @@ libraryDependencies ++= {
     "org.json4s" %% "json4s-core" % json4sVersion,
     "org.json4s" %% "json4s-jackson" % json4sVersion,
     "net.debasishg" %% "redisclient" % "3.2",
-    "officeserve.commons" %% "dynamodb-support" % "0.0.1",
-    "officeserve.services.document-service" %% "document-service-api" % "0.0.11",
-    "officeserve.services.basket-service" %% "basket-service-model" % "0.1.23" intransitive(),
-    "officeserve.services.send-email" %% "send-email-model" % "0.0.1",
     "org.scalatest" %% "scalatest" % "3.0.0" % "test",
     "org.mockito" % "mockito-core" % "2.2.8" % "test",
     "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test"

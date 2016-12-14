@@ -1,6 +1,3 @@
-import sbtrelease.ReleasePlugin.autoImport.ReleaseTransformations._
-organization := "officeserve.commons"
-
 name := "backend-common-utils"
 
 libraryDependencies ++= {
