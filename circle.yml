@@ -1,0 +1,35 @@
+machine:
+  pre:
+    - git clone git@github.com:OfficeServe/sbt-settings.git
+    - chmod +x sbt-settings/./circleBuildScript.sh
+    - sbt-settings/./circleBuildScript.sh machine_pre
+  timezone: UTC
+  java:
+    version: oraclejdk8
+  services:
+    - docker
+
+# Collect build artifacts
+general:
+  artifacts:
+    - target/universal
+
+dependencies:
+  # Cache the resolution-cache and build streams to speed things up
+  cache_directories:
+    - "~/.sbt"
+    - "target/resolution-cache"
+    - "target/streams"
+  #Create the repository proxy configuration and add user credentials.
+  pre:
+    - cd .. ; sbt-settings/./circleBuildScript.sh sbt_setup
+  # Compile all sources
+  override:
+    - sbt clean test:compile
+
+test:
+  override:
+    - ../sbt-settings/circleBuildScript.sh run_tests && sbt it:test
+  # Copy test reports to Circle test reports dir then package app for deploy
+  post:
+    - cd .. ; sbt-settings/./circleBuildScript.sh copy_test_report
