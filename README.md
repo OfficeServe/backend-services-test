@@ -7,3 +7,4 @@ sbt compile
 - test
 sbt test
 
+there is only one verison for all artefacts.
