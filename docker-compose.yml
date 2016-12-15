@@ -9,17 +9,17 @@ services:
     image: scality/s3server
     ports:
       - "8000:8000"
-    # networks:
-    #   app_net:
-    #     ipv4_address: 172.16.238.11
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.11
 
   sns:
     image: s12v/sns
     ports:
       - "9911:9911"
-    # networks:
-    #   app_net:
-    #     ipv4_address: 172.16.238.12
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.12
     volumes:
       - ./config/sns:/etc/sns
       - /tmp/sns:/tmp
@@ -28,9 +28,9 @@ services:
     image: feathj/fake-sqs
     ports:
       - "9494:9494"
-    # networks:
-    #   app_net:
-    #     ipv4_address: 172.16.238.13
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.13
     environment:
       VIRTUAL_HOST: "sqs"
 
@@ -38,15 +38,15 @@ services:
     image: ryanratcliff/dynamodb
     ports:
       - "8001:8000"
-    # networks:
-      # app_net:
-    #     ipv4_address: 172.16.238.14
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.14
 
-# networks:
-#   app_net:
-#     driver: bridge
-#     ipam:
-#       driver: default
-#       config:
-#       - subnet: 172.16.238.0/24
-#         gateway: 172.16.238.1
+networks:
+  app_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.16.238.0/24
+        gateway: 172.16.238.1
