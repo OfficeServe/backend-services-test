@@ -1,5 +1,8 @@
 machine:
-
+  pre:
+    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
+    - sudo pip install --upgrade pip
+    - sudo pip install docker-compose
   # pre:
   #   - git clone git@github.com:OfficeServe/sbt-settings.git
   #   - chmod +x sbt-settings/./circleBuildScript.sh
@@ -24,9 +27,9 @@ dependencies:
     #- curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
     #- sudo pip install --upgrade pip
     #- sudo pip install docker-compose
-    - curl -L https://github.com/docker/compose/releases/download/1.6.2/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
-    - chmod +x ~/docker-compose
-    - ~/docker-compose up -d
+    # - curl -L https://github.com/docker/compose/releases/download/1.6.2/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+    # - chmod +x ~/docker-compose
+    - docker-compose up -d
   cache_directories:
     - "~/.ivy2"
     - "~/.sbt"
