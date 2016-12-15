@@ -34,7 +34,7 @@ dependencies:
   cache_directories:
     - "~/.ivy2"
     - "~/.sbt"
-    - "~/docker-images"
+    - "/var/lib/docker"
 
 test:
   override:
