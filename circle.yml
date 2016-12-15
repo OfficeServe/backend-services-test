@@ -30,9 +30,6 @@ dependencies:
   cache_directories:
     - "~/.ivy2"
     - "~/.sbt"
-  override:
-    # - sbt clean test:compile
-    - sbt clean test:compile
 
 test:
   override:
