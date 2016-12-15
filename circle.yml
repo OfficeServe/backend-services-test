@@ -30,14 +30,16 @@ dependencies:
     # - curl -L https://github.com/docker/compose/releases/download/1.6.2/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
     # - chmod +x ~/docker-compose
     - docker-compose up -d
+    - ./setup-env.sh
   cache_directories:
     - "~/.ivy2"
     - "~/.sbt"
+    - "/var/lib/docker/"
 
 test:
   override:
     # - ../sbt-settings/circleBuildScript.sh run_tests && sbt it:test
-    - sbt clean test package
+    - sbt test package
     #- sbt compile it:test
   # Copy test reports to Circle test reports dir then package app for deploy
   # post:
