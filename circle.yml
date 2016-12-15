@@ -20,6 +20,9 @@ dependencies:
   pre:
     - wget -q https://dl.bintray.com/sbt/debian/sbt-0.13.13.deb
     - sudo dpkg -i sbt-0.13.13.deb
+    # Installing docker-compose / needed for permission issue to install pip
+    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
+    - sudo pip install --upgrade pip
     - sudo pip install docker-compose
   post:
     - docker-compose up
