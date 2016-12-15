@@ -20,10 +20,12 @@ dependencies:
   pre:
     - wget -q https://dl.bintray.com/sbt/debian/sbt-0.13.13.deb
     - sudo dpkg -i sbt-0.13.13.deb
+    - sudo pip install docker-compose
+  post:
+    - docker-compose up
   cache_directories:
     - "~/.ivy2"
     - "~/.sbt"
-
   override:
     # - sbt clean test:compile
     - sbt clean test:compile
@@ -32,7 +34,7 @@ test:
   override:
     # - ../sbt-settings/circleBuildScript.sh run_tests && sbt it:test
     - sbt clean test package
-    #- sbt compile it:test 
+    #- sbt compile it:test
   # Copy test reports to Circle test reports dir then package app for deploy
   # post:
   #   - cd .. ; sbt-settings/./circleBuildScript.sh copy_test_report
