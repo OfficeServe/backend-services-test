@@ -14,7 +14,7 @@ libraryDependencies ++= {
     "ch.qos.logback" % "logback-classic" % "1.1.7",
     "org.slf4j" % "jcl-over-slf4j" % "1.7.21",
     "io.github.cloudify" %% "spdf" % "1.3.1",
-    "com.amazonaws" % "aws-java-sdk-s3" % "1.11.39",
+    "com.amazonaws" % "aws-java-sdk-s3" % "1.11.39" exclude("commons-logging","commons-logging"),
     "com.github.spullara.mustache.java" % "compiler" % "0.9.4",
     "com.github.spullara.mustache.java" % "scala-extensions-2.11" % "0.9.4",
     "org.scalatest" %% "scalatest" % "3.0.0" % "test",
@@ -24,13 +24,14 @@ libraryDependencies ++= {
 }
 
 dockerfile in docker := {
-  // The assembly task generates a fat JAR file
-  val artifact: File = assembly.value
-  val artifactTargetPath = s"/app/${artifact.name}"
+  val appDir = stage.value
+  val targetDir = "/app"
 
   new Dockerfile {
     from("anapsix/alpine-java")
-    add(artifact, artifactTargetPath)
-    entryPoint("java", "-jar", artifactTargetPath)
+    entryPoint(s"$targetDir/bin/${executableScriptName.value}")
+    copy(appDir, targetDir)
   }
 }
+
+buildOptions in docker := BuildOptions(cache = false)

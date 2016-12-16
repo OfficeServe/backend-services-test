@@ -9,9 +9,9 @@ libraryDependencies ++= {
     "com.gu" %% "scanamo" % "0.6.0",
     "io.spray" %% "spray-client" % "1.3.3",
     "org.scalaz" %% "scalaz-core" % "7.1.0",
-    "com.amazonaws" % "aws-java-sdk-sns" % "1.10.32",
-    "com.amazonaws" % "aws-java-sdk-sqs" % "1.10.32",
-    "com.github.dwhjames" %% "aws-wrap" % "0.8.0",
+    "com.amazonaws" % "aws-java-sdk-sns" % "1.10.32" exclude("commons-logging","commons-logging"),
+    "com.amazonaws" % "aws-java-sdk-sqs" % "1.10.32" exclude("commons-logging","commons-logging"),
+    "com.github.dwhjames" %% "aws-wrap" % "0.8.0" exclude("commons-logging","commons-logging"),
     "org.json4s" %% "json4s-jackson" % json4sV,
     "org.json4s" %% "json4s-ext" % json4sV,
     "org.apache.poi" % "poi" % "3.8" % "test",
@@ -27,13 +27,14 @@ libraryDependencies ++= {
 resolvers += Resolver.bintrayRepo("dwhjames", "maven")
 
 dockerfile in docker := {
-  // The assembly task generates a fat JAR file
-  val artifact: File = assembly.value
-  val artifactTargetPath = s"/app/${artifact.name}"
+  val appDir = stage.value
+  val targetDir = "/app"
 
   new Dockerfile {
     from("anapsix/alpine-java")
-    add(artifact, artifactTargetPath)
-    entryPoint("java", "-jar", artifactTargetPath)
+    entryPoint(s"$targetDir/bin/${executableScriptName.value}")
+    copy(appDir, targetDir)
   }
 }
+
+buildOptions in docker := BuildOptions(cache = false)
