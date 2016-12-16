@@ -1,4 +1,3 @@
-
 name := "basket-service"
 
 libraryDependencies ++= {
@@ -26,3 +25,15 @@ libraryDependencies ++= {
 }
 
 resolvers += Resolver.bintrayRepo("dwhjames", "maven")
+
+dockerfile in docker := {
+  // The assembly task generates a fat JAR file
+  val artifact: File = assembly.value
+  val artifactTargetPath = s"/app/${artifact.name}"
+
+  new Dockerfile {
+    from("anapsix/alpine-java")
+    add(artifact, artifactTargetPath)
+    entryPoint("java", "-jar", artifactTargetPath)
+  }
+}

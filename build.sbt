@@ -1,9 +1,12 @@
+
 import sbt._
 import sbt.Keys._
 import SpecialConfigs.all
 import sbtrelease.ReleasePlugin.autoImport.ReleaseTransformations._
 
 name := "backend-services"
+
+organization := "officeserve.services"
 
 scalaVersion := "2.11.8"
 
@@ -21,18 +24,18 @@ lazy val backendCommonUtils = (project in file("backend-common-utils"))
   .settings(commonSettings: _*)
 
 lazy val commonSpray = (project in file("common-spray"))
-  .settings(commonSettings: _*)
+  .settings(commonSettings: _*).enablePlugins(DockerPlugin)
   .dependsOn(backendCommonUtils)
 
 lazy val basket = (project in file("basket-service"))
-  .settings(commonSettings: _*)
+  .settings(commonSettings: _*).enablePlugins(DockerPlugin)
   .dependsOn(backendCommonUtils, commonSpray)
 
 lazy val document = (project in file("document-service"))
-  .settings(commonSettings: _*)
+  .settings(commonSettings: _*).enablePlugins(DockerPlugin)
 
-lazy val sendMailLambda = (project in file("send-email-lambda"))
-  .settings(commonSettings: _*)
+lazy val sendEmail = (project in file("send-email"))
+  .settings(commonSettings: _*).enablePlugins(DockerPlugin)
   .dependsOn(document, basket)
 
 lazy val dynamodbSupport = (project in file("dynamodb-support"))
@@ -40,7 +43,6 @@ lazy val dynamodbSupport = (project in file("dynamodb-support"))
 
 lazy val report = (project in file("report-service"))
   .settings(commonSettings: _*)
-  .dependsOn(document, basket, sendMailLambda, dynamodbSupport)
+  .dependsOn(document, basket, sendEmail, dynamodbSupport)
 
-
-lazy val root = (project in file(".")).aggregate(commonSpray, backendCommonUtils, sendMailLambda, dynamodbSupport, basket, document, report)
+lazy val root = (project in file(".")).aggregate(commonSpray, backendCommonUtils, sendEmail, dynamodbSupport, basket, document, report)

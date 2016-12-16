@@ -23,12 +23,6 @@ dependencies:
   pre:
     - wget -q https://dl.bintray.com/sbt/debian/sbt-0.13.13.deb
     - sudo dpkg -i sbt-0.13.13.deb
-    # Installing docker-compose / needed for permission issue to install pip
-    #- curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
-    #- sudo pip install --upgrade pip
-    #- sudo pip install docker-compose
-    # - curl -L https://github.com/docker/compose/releases/download/1.6.2/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
-    # - chmod +x ~/docker-compose
     - docker-compose up -d
     - . ./setup-env.sh
   cache_directories:
@@ -44,3 +38,12 @@ test:
   # Copy test reports to Circle test reports dir then package app for deploy
   # post:
   #   - cd .. ; sbt-settings/./circleBuildScript.sh copy_test_report
+
+deployment:
+  all:
+    branch: /release\/.*/
+    commands:
+      - sbt "project basket" docker
+      - sbt "project document" docker
+      - sbt "project report" docker
+      - sbt "project sendEmail" docker
