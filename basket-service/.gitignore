@@ -1,0 +1,7 @@
+
+.idea/*
+target/*
+project/target
+*.sc
+*/target
+.DS_Store

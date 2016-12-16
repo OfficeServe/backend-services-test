@@ -1,0 +1,49 @@
+machine:
+  pre:
+    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
+    - sudo pip install --upgrade pip
+    - sudo pip install docker-compose
+  # pre:
+  #   - git clone git@github.com:OfficeServe/sbt-settings.git
+  #   - chmod +x sbt-settings/./circleBuildScript.sh
+  #   - sbt-settings/./circleBuildScript.sh machine_pre
+  timezone: UTC
+  java:
+    version: oraclejdk8
+  services:
+    - docker
+
+# Collect build artifacts
+general:
+  artifacts:
+    - target/universal
+
+dependencies:
+  # Cache the resolution-cache and build streams to speed things up
+  pre:
+    - wget -q https://dl.bintray.com/sbt/debian/sbt-0.13.13.deb
+    - sudo dpkg -i sbt-0.13.13.deb
+    - docker-compose up -d
+    - . ./setup-env.sh
+  cache_directories:
+    - "~/.ivy2"
+    - "~/.sbt"
+    - "/var/lib/docker"
+
+test:
+  override:
+    # - ../sbt-settings/circleBuildScript.sh run_tests && sbt it:test
+    - sbt test package
+    #- sbt compile it:test
+  # Copy test reports to Circle test reports dir then package app for deploy
+  # post:
+  #   - cd .. ; sbt-settings/./circleBuildScript.sh copy_test_report
+
+deployment:
+  all:
+    branch: /release\/.*/
+    commands:
+      - sbt "project basket" docker
+      - sbt "project document" docker
+      - sbt "project report" docker
+      - sbt "project sendEmail" docker
