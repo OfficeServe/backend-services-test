@@ -378,8 +378,8 @@
 //
 //}
 //
-//object BasketServiceApiPaymentResponseMethodTest {
 //
+//object BasketServiceApiPaymentResponseMethodTest {
 //
 //  class DummyPaymentMethodRepoImpl extends PaymentMethodRepository with BasketServiceApiPaymentMethodTestFixure {
 //
