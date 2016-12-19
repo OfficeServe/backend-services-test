@@ -80,13 +80,12 @@ case class DynamoDBTable[T: DynamoFormat](name: String,
   //      }
   //    }
 
-  def filter[Coll[_]](cond: Map[String, Condition], limit: Int)(implicit cbf: CanBuildFrom[Coll[T], T, Coll[T]]): Future[Coll[T]] = {
+  def filter[Coll[_]](cond: Map[String, Condition])(implicit cbf: CanBuildFrom[Coll[T], T, Coll[T]]): Future[Coll[T]] = {
     val builder: mutable.Builder[T, Coll[T]] = cbf()
 
     (ScanamoAsync.exec(client)(ScanamoOps.scan(new ScanRequest()
       .withTableName(fullName)
-      .withScanFilter(cond.asJava)
-      .withLimit(limit))) map { v =>
+      .withScanFilter(cond.asJava))) map { v =>
       v.getItems.asScala.map(i => ScanamoFree.read[T](i))
     }) map { x =>
       x.foreach {

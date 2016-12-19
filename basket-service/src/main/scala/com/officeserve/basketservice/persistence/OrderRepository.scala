@@ -58,7 +58,7 @@ class OrderRepositoryImpl(implicit settings: DynamoDBSettings, executor: Executi
 
   override def getUserOrders(userId: CognitoIdentityId): Future[Seq[Order]] =
     table.filter[Seq](Map("userId" -> new Condition().withComparisonOperator(ComparisonOperator.EQ)
-      .withAttributeValueList(new AttributeValue().withS(userId))), DefaultLimit).map(os => os.toSeq)
+      .withAttributeValueList(new AttributeValue().withS(userId))))
 
   override def getOrdersFor(status: OrderStatus,
                             cutOffTime: ZonedDateTime): Future[Seq[Order]] = {
