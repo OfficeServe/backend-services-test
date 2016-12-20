@@ -3,6 +3,8 @@ machine:
     - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
     - sudo pip install --upgrade pip
     - sudo pip install docker-compose
+    - projectVersion=$(sed 's/version in ThisBuild := \"\(.*\)\".*/\1/' version.sbt)
+    - docker_tag="${projectVersion}-${CIRCLE_BUILD_NUM}"
   # pre:
   #   - git clone git@github.com:OfficeServe/sbt-settings.git
   #   - chmod +x sbt-settings/./circleBuildScript.sh
@@ -43,11 +45,11 @@ deployment:
   all:
     branch: /release\/.*/
     commands:
-      - sbt "project basket" docker
-      - sbt "project document" docker
-      - sbt "project report" docker
-      - sbt "project sendEmail" docker
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - sbt "project basket" docker:stage     && docker build -t officeserve/basket-service:$docker_tag basket-service/target/docker/stage/
+      - sbt "project document" docker:stage   && docker build -t officeserve/document-service:$docker_tag document-service/target/docker/stage/
+      - sbt "project report" docker:stage     && docker build -t officeserve/report-service:$docker_tag report-service/target/docker/stage/
+      - sbt "project sendEmail" docker:stage  && docker build -t officeserve/send-email-lambda:$docker_tag send-email-lambda/target/docker/stage/
       - docker push officeserve/basket-service
       - docker push officeserve/document-service
       - docker push officeserve/report-service
