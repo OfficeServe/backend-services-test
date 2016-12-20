@@ -43,7 +43,7 @@ deployment:
   all:
     branch: /release\/.*/
     commands:
-      - echo $(sed 's/version in ThisBuild := \"\(.*\)\".*/\1/' backend-services-test/version.sbt) > project_version
+      - echo $(sed 's/version in ThisBuild := \"\(.*\)\".*/\1/' version.sbt) > project_version
       - echo $(cat project_version)-${CIRCLE_BUILD_NUM} > docker_tag
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASSWORD
       - sbt "project basket" docker:stage     && docker build -t officeserve/basket-service:$(cat docker_tag) basket-service/target/docker/stage/
