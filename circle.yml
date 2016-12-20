@@ -47,6 +47,7 @@ deployment:
       - sbt "project document" docker
       - sbt "project report" docker
       - sbt "project sendEmail" docker
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASSWORD
       - docker push officeserve/basket-service
       - docker push officeserve/document-service
       - docker push officeserve/report-service
