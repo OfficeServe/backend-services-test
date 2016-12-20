@@ -47,3 +47,7 @@ deployment:
       - sbt "project document" docker
       - sbt "project report" docker
       - sbt "project sendEmail" docker
+      - docker push officeserve/basket-service
+      - docker push officeserve/document-service
+      - docker push officeserve/report-service
+      #- docker push officeserve/send-email-lambda
