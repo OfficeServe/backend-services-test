@@ -6,12 +6,10 @@ import sbtrelease.ReleasePlugin.autoImport.ReleaseTransformations._
 
 name := "backend-services"
 
-organization := "officeserve.services"
-
 scalaVersion := "2.11.8"
 
 lazy val commonSettings = Seq(
-  organization := "officeserve.services.basket-service",
+  organization := "officeserve.services",
   scalaVersion := "2.11.8",
   scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8")
 )
