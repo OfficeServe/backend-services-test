@@ -49,7 +49,7 @@ deployment:
       - sbt "project basket" docker:stage     && docker build -t officeserve/basket-service:$(cat docker_tag) basket-service/target/docker/stage/
       - sbt "project document" docker:stage   && docker build -t officeserve/document-service:$(cat docker_tag) document-service/target/docker/stage/
       - sbt "project report" docker:stage     && docker build -t officeserve/report-service:$(cat docker_tag) report-service/target/docker/stage/
-      - sbt "project sendEmail" docker:stage  && docker build -t officeserve/send-email-lambda:$(cat docker_tag) send-email-lambda/target/docker/stage/
+      - sbt "project sendEmail" docker:stage  && docker build -t officeserve/send-email-lambda:$(cat docker_tag) send-email/target/docker/stage/
       - docker push officeserve/basket-service
       - docker push officeserve/document-service
       - docker push officeserve/report-service
